@@ -38,10 +38,32 @@ public class Kiosk {
                     }
                     break;
                 case 2:
-                    showItem(menuList.get(1).selectedItem(menuList.get(1).showItem()));
+                    while(true) {
+                        int choiceItem = menuList.get(1).showItem();
+                        if(choiceItem == 0){
+                            break;
+                        }
+                        try {
+                            showItem(menuList.get(1).selectedItem(choiceItem));
+                            break;
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("해당 제품은 없는 제품 입니다.");
+                        }
+                    }
                     break;
                 case 3:
-                    showItem(menuList.get(2).selectedItem(menuList.get(2).showItem()));
+                    while(true) {
+                        int choiceItem = menuList.get(2).showItem();
+                        if(choiceItem == 0){
+                            break;
+                        }
+                        try {
+                            showItem(menuList.get(2).selectedItem(choiceItem));
+                            break;
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("해당 제품은 없는 제품 입니다.");
+                        }
+                    }
                     break;
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
@@ -65,6 +87,7 @@ public class Kiosk {
         return scan.nextInt();
     }
 
+    //장바구니에 추가하는 함수로 수정
     public void showItem(MenuItem menuItem){
         System.out.println("**********************************************************************************");
         System.out.println(menuItem.getProductName()+"| W "+menuItem.getProductPrice()+"| "+menuItem.getProductInfo());
