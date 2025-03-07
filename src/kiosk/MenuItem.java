@@ -4,11 +4,13 @@ public class MenuItem {
     private String productName;
     private Double productPrice;
     private String productInfo;
+    private String productCategory;
 
-    MenuItem(String productName, Double productPrice, String productInfo){
+    MenuItem(String productName, Double productPrice, String productInfo, String productCategory){
         this.productName = productName;
         this.productPrice = productPrice;
         this.productInfo = productInfo;
+        this.productCategory = productCategory;
     }
 
     public String getProductName(){
@@ -19,6 +21,9 @@ public class MenuItem {
     }
     public String getProductInfo(){
         return productInfo;
+    }
+    public String getProductCategory(){
+        return productCategory;
     }
 
 }
