@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Kiosk {
 
     private List<Menu> menuList = new ArrayList<>();
-    private OrderItem orderItem = new OrderItem();
+    private OrderItem orderItem;
     private TempDB tempDB = new TempDB();
 
     Kiosk(){
@@ -17,6 +17,7 @@ public class Kiosk {
         menuList.add(burgersMenu);
         menuList.add(drinksMenu);
         menuList.add(dessertsMenu);
+        orderItem = new OrderItem(tempDB);
     }
 
     public void start(){
@@ -42,13 +43,24 @@ public class Kiosk {
                 }
             }
             else if(choiceMainMenu == 4 && orderItem.isEmptyCheck()){
-                double totalPrice = orderItem.showOrderItem();
-                if(byItem() == 1){
-                    totalPrice = choiceDiscount(totalPrice);
-                    System.out.println("주문이 완료되었습니다. 금액은 W "+ totalPrice + " 입니다.\n\n");
-                    System.out.println("==================================================================================");
-                    orderItem.delAllOrder();
+                while(true){
+                    double totalPrice = orderItem.showOrderItem();
+                    int byNum = byItem();
+                    if(byNum == 1){
+                        totalPrice = choiceDiscount(totalPrice);
+                        System.out.println("주문이 완료되었습니다. 금액은 W "+ totalPrice + " 입니다.\n\n");
+                        System.out.println("==================================================================================");
+                        orderItem.delAllOrder();
+                        break;
+                    }
+                    else if(byNum == 2){
+                        orderItem.quantityChange();
+                    }
+                    else if(byNum == 3){
+                        break;
+                    }
                 }
+
             }
             else if(choiceMainMenu == 5 && orderItem.isEmptyCheck()){
                 orderItem.delAllOrder();
@@ -93,7 +105,7 @@ public class Kiosk {
 
     public int byItem(){
         Scanner scan = new Scanner(System.in);
-        System.out.println("1. 주문       2. 메뉴판");
+        System.out.println("1. 주문      2.수량 변경   3. 메뉴판");
         System.out.print("번호를 입력 해주세요: ");
         int num = scan.nextInt();
         System.out.println("\n==================================================================================");
