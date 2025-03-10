@@ -6,11 +6,12 @@ import java.util.Scanner;
 
 public class Kiosk {
 
-    private List<Menu> menuList = new ArrayList<>();
-    private OrderItem orderItem;
-    private TempDB tempDB = new TempDB();
+    private final List<Menu> menuList = new ArrayList<>();
+    private final OrderItem orderItem;
+    Scanner scan = new Scanner(System.in);
 
     Kiosk(){
+        TempDB tempDB = new TempDB();
         Menu burgersMenu = new Menu("Burgers", tempDB);
         Menu drinksMenu = new Menu("Drinks", tempDB);
         Menu dessertsMenu = new Menu("Desserts", tempDB);
@@ -21,7 +22,7 @@ public class Kiosk {
     }
 
     public void start(){
-        int choiceMainMenu = 0;
+        int choiceMainMenu;
 
         do{
             choiceMainMenu = showMainMenu();
@@ -72,7 +73,6 @@ public class Kiosk {
     }
 
     public int showMainMenu(){
-        Scanner scan = new Scanner(System.in);
         System.out.println("\n[ MAIN MENU ]");
         System.out.println("1. Burgers");
         System.out.println("2. Drinks");
@@ -90,7 +90,6 @@ public class Kiosk {
 
     //장바구니에 추가하는 함수로 수정
     public int showItem(MenuItem menuItem){
-        Scanner scan = new Scanner(System.in);
         System.out.println("\n**********************************************************************************");
         System.out.println("[ Orders ]");
         System.out.println(menuItem.getProductName()+"| W "+menuItem.getProductPrice()+"| "+menuItem.getProductInfo());
@@ -104,7 +103,6 @@ public class Kiosk {
     }
 
     public int byItem(){
-        Scanner scan = new Scanner(System.in);
         System.out.println("1. 주문      2.수량 변경   3. 메뉴판");
         System.out.print("번호를 입력 해주세요: ");
         int num = scan.nextInt();
@@ -113,7 +111,6 @@ public class Kiosk {
     }
 
     public double choiceDiscount(double totalPrice){
-        Scanner scan = new Scanner(System.in);
         System.out.println("할인 정보를 입력해주세요.");
         System.out.println("""
                 1. 국가유공자 : 10%

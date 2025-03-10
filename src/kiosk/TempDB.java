@@ -6,7 +6,7 @@ import java.util.List;
 //추후 관리자 메뉴 만들어서 DB 관리 시키기
 
 public class TempDB {
-    private List<MenuItem> productList = new ArrayList<>();
+    private final List<MenuItem> productList = new ArrayList<>();
 
     TempDB(){
         MenuItem menuItem1 = new MenuItem("ShackBurger      ", 6.9 , "토마토, 양상추, 쉑소스가 토핑된 치즈버거", "Burgers");

@@ -1,11 +1,10 @@
 package kiosk;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    private List<MenuItem> itemList;
+    private final List<MenuItem> itemList;
 
     Menu(String category, TempDB tempDB){
         itemList = tempDB.getProductList(category);

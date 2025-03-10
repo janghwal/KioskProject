@@ -1,10 +1,10 @@
 package kiosk;
 
 public class MenuItem {
-    private String productName;
-    private Double productPrice;
-    private String productInfo;
-    private String productCategory;
+    private final String productName;
+    private final Double productPrice;
+    private final String productInfo;
+    private final String productCategory;
 
     MenuItem(String productName, Double productPrice, String productInfo, String productCategory){
         this.productName = productName;

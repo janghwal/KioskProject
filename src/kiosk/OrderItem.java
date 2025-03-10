@@ -1,11 +1,10 @@
 package kiosk;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OrderItem {
-    private HashMap<String, Integer> orderItemMap = new HashMap<>();
-    private TempDB tempDB;
+    private final HashMap<String, Integer> orderItemMap = new HashMap<>();
+    private final TempDB tempDB;
 
     OrderItem(TempDB tempDB){
         this.tempDB = tempDB;
@@ -94,8 +93,7 @@ public class OrderItem {
 
     // Stream 사용
     public double showOrderItem(){
-        double totalPrice = 0.0;
-        int i = 1;
+        double totalPrice;
         System.out.println("\n[ Orders ]");
         System.out.println("Menu Item        | Quantity | Unit Price | Price");
         totalPrice = orderItemMap.entrySet().stream()
@@ -111,9 +109,6 @@ public class OrderItem {
     }
 
     public boolean isEmptyCheck(){
-        if(orderItemMap.isEmpty()){
-            return false;
-        }
-        return true;
+        return !orderItemMap.isEmpty();
     }
 }
