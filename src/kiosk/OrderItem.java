@@ -1,9 +1,6 @@
 package kiosk;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OrderItem {
@@ -64,14 +61,33 @@ public class OrderItem {
         System.out.print("수량을 변경 할 메뉴의 번호를 입력해주세요: ");
         choiceNum = scan.nextInt();
 
-        System.out.println("\n**********************************************************************************");
-        System.out.print(tempList.get(choiceNum-1) + "|   " + orderItemMap.get(tempList.get(choiceNum-1)) + "EA    |   W " + priceOrder(tempList.get(choiceNum-1)) + "    | W ");
-        System.out.printf("%.1f%n", orderItemMap.get(tempList.get(choiceNum-1)) * priceOrder(tempList.get(choiceNum-1)));
-        System.out.println("**********************************************************************************");
-        System.out.print("몇개로 변경하시겠습니까?: ");
-        orderItemMap.put(tempList.get(choiceNum-1), scan.nextInt());
-
-        System.out.println("변경되었습니다.");
+        try{
+            System.out.println("\n**********************************************************************************");
+            System.out.print(tempList.get(choiceNum-1) + "|   " + orderItemMap.get(tempList.get(choiceNum-1)) + "EA    |   W " + priceOrder(tempList.get(choiceNum-1)) + "    | W ");
+            System.out.printf("%.1f%n", orderItemMap.get(tempList.get(choiceNum-1)) * priceOrder(tempList.get(choiceNum-1)));
+            System.out.println("**********************************************************************************");
+            System.out.print("몇개로 변경하시겠습니까?: ");
+            int changeQ = scan.nextInt();
+            if(changeQ == 0){
+                orderItemMap.remove(tempList.get(choiceNum-1));
+                System.out.println("변경되었습니다.");
+            }
+            else if(changeQ < 0){
+                System.out.println("잘못된 숫자를 입력하셨습니다. ");
+            }
+            else{
+                orderItemMap.put(tempList.get(choiceNum-1), scan.nextInt());
+                System.out.println("변경되었습니다.");
+            }
+        }catch (IndexOutOfBoundsException e1){
+            System.out.println("\n**********************************************************************************");
+            System.out.println("잘못된 숫자를 입력하셨습니다. ");
+            System.out.println("**********************************************************************************\n");
+        }catch (InputMismatchException e2) {
+            System.out.println("\n**********************************************************************************");
+            System.out.println("숫자를 입력해주세요. ");
+            System.out.println("**********************************************************************************\n");
+        }
     }
 
 
