@@ -20,6 +20,8 @@ public class Kiosk {
 
     public void start(){
         int choiceMainMenu;
+        OrderItem orderItem = new OrderItem();
+
         do {
             choiceMainMenu = showMainMenu();
             switch (choiceMainMenu) {
@@ -30,7 +32,13 @@ public class Kiosk {
                             break;
                         }
                         try {
-                            showItem(menuList.get(0).selectedItem(choiceItem));
+                            if(showItem(menuList.get(0).selectedItem(choiceItem)) == 1){
+                                System.out.println(menuList.get(0).selectedItem(choiceItem).getProductName()+"제품이 장바구니에 추가되었습니다.");
+                                System.out.println("==================================================================================");
+                                orderItem.addOrder(menuList.get(0).selectedItem(choiceItem));
+                            }else{
+                                System.out.println("취소되었습니다.");
+                            }
                             break;
                         } catch (IndexOutOfBoundsException e) {
                             System.out.println("해당 제품은 없는 제품 입니다.");
@@ -44,7 +52,13 @@ public class Kiosk {
                             break;
                         }
                         try {
-                            showItem(menuList.get(1).selectedItem(choiceItem));
+                            if(showItem(menuList.get(1).selectedItem(choiceItem)) == 1){
+                                System.out.println(menuList.get(1).selectedItem(choiceItem).getProductName()+"제품이 장바구니에 추가되었습니다.");
+                                System.out.println("==================================================================================");
+                                orderItem.addOrder(menuList.get(1).selectedItem(choiceItem));
+                            }else{
+                                System.out.println("취소되었습니다.");
+                            }
                             break;
                         } catch (IndexOutOfBoundsException e) {
                             System.out.println("해당 제품은 없는 제품 입니다.");
@@ -58,18 +72,34 @@ public class Kiosk {
                             break;
                         }
                         try {
-                            showItem(menuList.get(2).selectedItem(choiceItem));
+                            if(showItem(menuList.get(2).selectedItem(choiceItem)) == 1){
+                                System.out.println(menuList.get(2).selectedItem(choiceItem).getProductName()+"제품이 장바구니에 추가되었습니다.");
+                                System.out.println("==================================================================================");
+                                orderItem.addOrder(menuList.get(2).selectedItem(choiceItem));
+                            }else{
+                                System.out.println("취소되었습니다.");
+                            }
                             break;
                         } catch (IndexOutOfBoundsException e) {
                             System.out.println("해당 제품은 없는 제품 입니다.");
                         }
                     }
                     break;
+                case 4:
+                    orderItem.showOrderItem();
+                    if(byItem() == 1){
+                        System.out.println("주문 완료");
+                        orderItem.delAllOrder();
+                    }
+                    break;
+                case 5:
+
+                    break;
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
                     break;
                 default:
-                    System.out.println("매뉴의 숫자를 입력해주세요.");
+                    System.out.println("메뉴의 숫자를 입력해주세요.");
                     break;
             }
         } while (choiceMainMenu != 0);
@@ -80,7 +110,10 @@ public class Kiosk {
         System.out.println("[ MAIN MENU ]");
         System.out.println("1. Burgers");
         System.out.println("2. Drinks");
-        System.out.println("3. Desserts");
+        System.out.println("3. Desserts\n");
+        System.out.println("[ ORDER MENU ]");
+        System.out.println("4. Orders");
+        System.out.println("5. Cancel");
         System.out.println("0. 종료      | 종료");
         System.out.println("==================================================================================");
         System.out.print("번호를 입력 해주세요: ");
@@ -88,9 +121,26 @@ public class Kiosk {
     }
 
     //장바구니에 추가하는 함수로 수정
-    public void showItem(MenuItem menuItem){
+    public int showItem(MenuItem menuItem){
+        Scanner scan = new Scanner(System.in);
         System.out.println("**********************************************************************************");
+        System.out.println("[ Orders ]");
         System.out.println(menuItem.getProductName()+"| W "+menuItem.getProductPrice()+"| "+menuItem.getProductInfo());
         System.out.println("**********************************************************************************");
+        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+        System.out.println("1. 확인       2. 취소");
+        System.out.print("번호를 입력 해주세요: ");
+        int num = scan.nextInt();
+        System.out.println("==================================================================================");
+        return num;
+    }
+
+    public int byItem(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("1. 주문       2. 메뉴판");
+        System.out.print("번호를 입력 해주세요: ");
+        int num = scan.nextInt();
+        System.out.println("==================================================================================");
+        return num;
     }
 }
