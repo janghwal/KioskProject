@@ -44,6 +44,7 @@ public class Kiosk {
             else if(choiceMainMenu == 4 && orderItem.isEmptyCheck()){
                 double totalPrice = orderItem.showOrderItem();
                 if(byItem() == 1){
+                    totalPrice = choiceDiscount(totalPrice);
                     System.out.println("주문이 완료되었습니다. 금액은 W "+ totalPrice + " 입니다.\n\n");
                     System.out.println("==================================================================================");
                     orderItem.delAllOrder();
@@ -98,4 +99,29 @@ public class Kiosk {
         System.out.println("\n==================================================================================");
         return num;
     }
+
+    public double choiceDiscount(double totalPrice){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("할인 정보를 입력해주세요.");
+        System.out.println("""
+                1. 국가유공자 : 10%
+                2. 군인     :  5%
+                3. 학생     :  3%
+                4. 일반     :  0%
+                """);
+        System.out.print("번호를 입력 해주세요: ");
+        return switch(scan.nextInt()){
+            case 1:
+                yield Discount.NATIONAL_MERIT_RECIPIENT.apply(totalPrice);
+            case 2:
+                yield Discount.MILITARY_PERSONNEL.apply(totalPrice);
+            case 3:
+                yield Discount.STUDENT.apply(totalPrice);
+            case 4:
+                yield Discount.GENERAL.apply(totalPrice);
+            default:
+                yield totalPrice;
+        };
+    }
+
 }
