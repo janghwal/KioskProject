@@ -23,15 +23,20 @@ public class OrderItem {
         return tempDB.getPrice(productName);
     }
 
-    public void showOrderItem(){
-        Double totalPrice = 0.0;
-        System.out.println("[ Orders ]");
+    public double showOrderItem(){
+        double totalPrice = 0.0;
+        System.out.println("\n[ Orders ]");
+        int i = 1;
         for (Map.Entry<String, Integer> entry : orderItemList.entrySet()) {
-            System.out.println(entry.getKey() + "| " + entry.getValue() + "EA | W " + priceOrder(entry.getKey()) + "| W " + entry.getValue() * priceOrder(entry.getKey()));
+            System.out.print(i+". "+entry.getKey() + "| " + entry.getValue() + "EA | W " + priceOrder(entry.getKey()) + "| W ");
+            System.out.printf("%.1f%n", entry.getValue() * priceOrder(entry.getKey()));
             totalPrice += entry.getValue() * priceOrder(entry.getKey());
+            i++;
         }
-        System.out.println("\n[ Total ]\nW "+totalPrice);
+        System.out.print("\n[ Total ]\nW ");
+        System.out.printf("%.1f%n", totalPrice);
         System.out.println("==================================================================================");
+        return totalPrice;
     }
 
     public boolean isEmptyCheck(){

@@ -14,7 +14,7 @@ public class Menu {
     public int showItem(){
         Scanner scan = new Scanner(System.in);
         int i = 1;
-        System.out.println("[ "+itemList.get(0).getProductCategory().toUpperCase()+" MENU ]");
+        System.out.println("\n[ "+itemList.get(0).getProductCategory().toUpperCase()+" MENU ]");
         for(MenuItem item : itemList){
             System.out.println(i+". "+item.getProductName()+"| W "+item.getProductPrice()+"| "+item.getProductInfo());
             i++;
