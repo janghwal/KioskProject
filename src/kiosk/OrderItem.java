@@ -1,10 +1,11 @@
 package kiosk;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OrderItem {
     /* 장바구니 정보가 저장된다. */
-    private final HashMap<String, Integer> orderItemMap = new HashMap<>();
+    private HashMap<String, Integer> orderItemMap = new HashMap<>();
     private final TempDB tempDB;
 
     OrderItem(TempDB tempDB){
@@ -79,7 +80,16 @@ public class OrderItem {
             System.out.print("몇개로 변경하시겠습니까?: ");
             int changeQ = scan.nextInt();
             if(changeQ == 0){
-                orderItemMap.remove(tempList.get(choiceNum-1));
+                /*
+                fliter 사용
+                orderItemMap에서 변경하고자 하는 품목의 수량이 0이 입력되어 장바구니에서 해당 품목을 삭제하는 분기문
+                해당 품목을 제외한 HashMap을 만들어서 orderItemMap에 대입하여 해당 품목에 대한 삭제 구현
+                 */
+                orderItemMap = new HashMap<>(orderItemMap.entrySet().stream()
+                        .filter(entry -> !entry.getKey().equals(tempList.get(choiceNum-1)))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+                //filter 사용 X버전
+//                orderItemMap.remove(tempList.get(choiceNum-1));
                 System.out.println("변경되었습니다.");
             }
             else if(changeQ < 0){
@@ -88,7 +98,6 @@ public class OrderItem {
             else{
                 //필터 여기에 적용해서 바꿔야 하나?
                 orderItemMap.put(tempList.get(choiceNum-1), changeQ);
-//                orderItemMap.entrySet().stream().filter(entry -> entry.getKey().equals(tempList.get(choiceNum-1)));
                 System.out.println("변경되었습니다.");
             }
         }catch (IndexOutOfBoundsException e1){
