@@ -1,5 +1,6 @@
 package kiosk;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -80,6 +81,9 @@ public class Kiosk {
             }
             else if(choiceMainMenu == 5 && orderItem.isEmptyCheck()){
                 orderItem.delAllOrder();
+            }
+            else if(choiceMainMenu == 0){
+                System.out.println("프로그램을 종료 합니다.");
             }
             else{
                 System.out.println("메뉴의 숫자를 입력해주세요.");

@@ -86,7 +86,7 @@ public class OrderItem {
                 System.out.println("잘못된 숫자를 입력하셨습니다. ");
             }
             else{
-                orderItemMap.put(tempList.get(choiceNum-1), scan.nextInt());
+                orderItemMap.put(tempList.get(choiceNum-1), changeQ);
                 System.out.println("변경되었습니다.");
             }
         }catch (IndexOutOfBoundsException e1){
