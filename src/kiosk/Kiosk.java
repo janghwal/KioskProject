@@ -65,7 +65,9 @@ public class Kiosk {
                     int byNum = byItem();
                     if(byNum == 1){
                         totalPrice = choiceDiscount(totalPrice);
-                        System.out.println("주문이 완료되었습니다. 금액은 W "+ totalPrice + " 입니다.\n\n");
+                        System.out.println("주문이 완료되었습니다. 금액은 W ");
+                        System.out.printf("%.1f%n", totalPrice);
+                        System.out.println(" 입니다.\n\n");
                         System.out.println("==================================================================================");
                         orderItem.delAllOrder();
                         break;

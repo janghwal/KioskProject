@@ -86,7 +86,9 @@ public class OrderItem {
                 System.out.println("잘못된 숫자를 입력하셨습니다. ");
             }
             else{
+                //필터 여기에 적용해서 바꿔야 하나?
                 orderItemMap.put(tempList.get(choiceNum-1), changeQ);
+//                orderItemMap.entrySet().stream().filter(entry -> entry.getKey().equals(tempList.get(choiceNum-1)));
                 System.out.println("변경되었습니다.");
             }
         }catch (IndexOutOfBoundsException e1){
