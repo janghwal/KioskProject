@@ -130,17 +130,116 @@
 
 ## OrderItem
   * __field__
+    * orderItemMap
+      * 실제 저장되는 장바구니
+      * 품목명, 수량이 HashMap 형태로 저장된다.
+    * tempDB
+      * 단가 확인을 위해 사용
+
+
   * __constructor__
+    * Kiosk로부터 전달 받은 tempDB로 this.tempDB 초기화
+
+
   * __method__
+    * addOrder(MenuItem menuItem)
+      * 사용자가 메뉴를 선택하면 HashMap 품목과 수량 1 저장
+      * 이미 매뉴가 있었을 경우 수량 1 추가
+    * delOrder(MenuItem menuItem)
+      * 사용자의 매뉴 선택시 수량 -1 하는 함수
+      * 사용하고 있지 않음 -> 수량을 1 줄이는 것이 아닌 특정 수로 변경하는 로직 구현
+    * delAllOrder()
+      * 저장되어 있는 모든 장바구니 항목을 삭제하는 매서드
+      * 주문 완료 후, 메인 메뉴 5번 캔슬 할 경우 Kiosk에서 호출된다.
+    * priceOrder(String productName)
+      * tempDB에서 품목에 맞는 단가 정보를 가져오는 매서드
+      * showOrderItem()에서 호출하여 사용한다.
+    * showOrderItem()
+      * 장바구니에 담겨있는 품목과, 단가, 수량, 총금액을 보여준다.
+      * 주문, 수량변경, 메뉴판 3가지 메뉴를 추가로 보여주고 사용자로부터의 선택을 리턴한다.
+      ```
+      [ Orders ]
+        Menu Item        | Quantity | Unit Price | Price
+        Milkshake        |   1EA    |   W 4.0    | W 4.0
+        ShackBurger      |   2EA    |   W 6.9    | W 13.8
+        Cheesecake       |   1EA    |   W 4.0    | W 4.0
+        ChocolateBrownie |   3EA    |   W 3.5    | W 10.5
+        ClassicCola      |   1EA    |   W 2.5    | W 2.5
+        Cheeseburger     |   1EA    |   W 6.9    | W 6.9
+        SmokeShack       |   1EA    |   W 8.9    | W 8.9
+        
+        [ Total ]
+        W 50.6
+        ==================================================================================
+        1. 주문      2.수량 변경   3. 메뉴판
+           번호를 입력 해주세요:
+      ```
+    * quantityChange()
+      * 수량을 변경하는 로직
+      * 장바구니 메뉴에서 수량변경을 선택한 경우 출력된다.
+      * 변경하고자 하는 품목 선택하기 -> 원하는 수량 입력하기 -> 결과 표시(showOrderItem()) 순으로 진행
+      * 변경을 원하는 수량이 0인 경우 stream().filter()를 이용하여 해당 품목 삭제 구현
+      ```
+      [ Orders ]
+      Num | Menu Item        | Quantity | Unit Price | Price
+      1.  | Milkshake        |   1EA    |   W 4.0    | W 4.0
+      2.  | ShackBurger      |   2EA    |   W 6.9    | W 13.8
+      3.  | Cheesecake       |   1EA    |   W 4.0    | W 4.0
+      4.  | ChocolateBrownie |   3EA    |   W 3.5    | W 10.5
+      5.  | ClassicCola      |   1EA    |   W 2.5    | W 2.5
+      6.  | Cheeseburger     |   1EA    |   W 6.9    | W 6.9
+      7.  | SmokeShack       |   1EA    |   W 8.9    | W 8.9
+      ==================================================================================
+      수량을 변경 할 메뉴의 번호를 입력해주세요:
+      ```
+      ```
+      **********************************************************************************
+      Milkshake        |   1EA    |   W 4.0    | W 4.0
+      **********************************************************************************
+      몇개로 변경하시겠습니까?:
+      ```
+      ```
+      [ Orders ]
+      Menu Item        | Quantity | Unit Price | Price
+      Milkshake        |   8EA    |   W 4.0    | W 32.0
+      ShackBurger      |   2EA    |   W 6.9    | W 13.8
+      Cheesecake       |   1EA    |   W 4.0    | W 4.0
+      ChocolateBrownie |   3EA    |   W 3.5    | W 10.5
+      ClassicCola      |   1EA    |   W 2.5    | W 2.5
+      Cheeseburger     |   1EA    |   W 6.9    | W 6.9
+      SmokeShack       |   1EA    |   W 8.9    | W 8.9
+      
+      [ Total ]
+      W 78.6
+      ==================================================================================
+      1. 주문      2.수량 변경   3. 메뉴판
+      번호를 입력 해주세요:
+      ```
+    * isEmptyCheck()
+      * 장바구니가 비어있는지 확인하는 매서드 Kiosk에서 호출하여 사용된다.
+      * 비어 있을경우 false, 비어있지 않을 경우 true 리턴
 
 
 ## Discount
-  * __field__
-  * __constructor__
-  * __method__
+  * Enum 사용
+  * NATIONAL_MERIT_RECIPIENT, MILITARY_PERSONNEL, STUDENT, GENERAL로 구성된다.
+  * 각각 국가 유공자, 군인, 학생, 일반이며 람다식을 사용하여 10%, 5%, 3%, 0%의 할인을 적용하는 매서드 구현되어 있다.
 
 
 ## TempDB
   * __field__
+    * productList
+      * MenuItem 타입의 객체를 리스트 형태로 저장한다.
+      * DB 대용으로 사용하기 위해 만들었다.
+
+
   * __constructor__
+    * DB에 들어갈 모든 데이터가 하드코딩 되어 productList에 저장된다.
+
+
   * __method__
+    * getProductList(String category)
+      * 카테고리에 맞는 MenuItem 리스트를 반환한다.
+
+    * getPrice(String productName)
+      * 제품명에 맞는 단가를 리턴한다.
