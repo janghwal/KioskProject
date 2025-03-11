@@ -5,11 +5,20 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Kiosk {
-
+    /*
+    menuList는 Burgers Menu, Drinks Menu, Desserts Menu 3가지를 저장한다.
+    orderItem은 장바구니 객체로 제품을 선택하거나 주문 할 때 호출해서 사용한다.
+    menuList, orderItem 객체 변경 없으므로 final 키워드 추가
+     */
     private final List<Menu> menuList = new ArrayList<>();
     private final OrderItem orderItem;
     Scanner scan = new Scanner(System.in);
 
+    /*
+    tempDB 객체를 만든 후 tempDB에 초기화 되어 있는 정보를 가져온다.
+    Burgers, Drinks, Desserts 에 맞는 항목만들 추려서 각각의 Menu 객체를 만들고 menuList에 저장한다.
+    tempDB 객체를 장바구니 객체에 넘겨 품목별 단가 정보를 사용할 수 있도록 한다.
+     */
     Kiosk(){
         TempDB tempDB = new TempDB();
         Menu burgersMenu = new Menu("Burgers", tempDB);
@@ -21,9 +30,15 @@ public class Kiosk {
         orderItem = new OrderItem(tempDB);
     }
 
+    /*
+    1~3번 메뉴와 0번 매뉴는 항상 출력 및 분기
+    장바구니에 항목이 없을 경우 4,5번 항목은 잘못된 입력으로 처리
+    1~3번: menuList 객체를 호출하여 진행, 주문은 orderItem에 저장
+    4번: orderItem 호출
+    5번: orderItem의 내부 초기화
+     */
     public void start(){
         int choiceMainMenu;
-
         do{
             choiceMainMenu = showMainMenu();
             if(choiceMainMenu >= 1 && choiceMainMenu <=3){
@@ -32,7 +47,7 @@ public class Kiosk {
                     continue;
                 }
                 try {
-                    if(showItem(menuList.get(choiceMainMenu-1).selectedItem(choiceItem)) == 1){
+                    if(showItem(menuList.get(choiceMainMenu-1).selectedItem(choiceItem))){
                         System.out.println(menuList.get(choiceMainMenu-1).selectedItem(choiceItem).getProductName()+"제품이 장바구니에 추가되었습니다.");
                         System.out.println("==================================================================================\n");
                         orderItem.addOrder(menuList.get(choiceMainMenu-1).selectedItem(choiceItem));
@@ -72,7 +87,10 @@ public class Kiosk {
         }while(choiceMainMenu != 0);
     }
 
-    public int showMainMenu(){
+    /*
+    메뉴를 보여주고 사용자의 선택값을 반환한다.
+     */
+    private int showMainMenu(){
         System.out.println("\n[ MAIN MENU ]");
         System.out.println("1. Burgers");
         System.out.println("2. Drinks");
@@ -88,8 +106,11 @@ public class Kiosk {
         return scan.nextInt();
     }
 
-    //장바구니에 추가하는 함수로 수정
-    public int showItem(MenuItem menuItem){
+    /*
+    선택 품목을 확인 시켜주고 추가할 것인지 재확인
+    결과에 따라 boolean 값 반환
+     */
+    private boolean showItem(MenuItem menuItem){
         System.out.println("\n**********************************************************************************");
         System.out.println("[ Orders ]");
         System.out.println(menuItem.getProductName()+"| W "+menuItem.getProductPrice()+"| "+menuItem.getProductInfo());
@@ -99,10 +120,18 @@ public class Kiosk {
         System.out.print("번호를 입력 해주세요: ");
         int num = scan.nextInt();
         System.out.println("\n==================================================================================");
-        return num;
+        if(num == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
-    public int byItem(){
+    /*
+    장바구니 메뉴를 보여주고 사용자의 선택을 반환한다.
+     */
+    private int byItem(){
         System.out.println("1. 주문      2.수량 변경   3. 메뉴판");
         System.out.print("번호를 입력 해주세요: ");
         int num = scan.nextInt();
@@ -110,7 +139,10 @@ public class Kiosk {
         return num;
     }
 
-    public double choiceDiscount(double totalPrice){
+    /*
+    할인 정보를 제공 후 할인이 적용된 totalPrice를 반환한다.
+     */
+    private double choiceDiscount(double totalPrice){
         System.out.println("할인 정보를 입력해주세요.");
         System.out.println("""
                 1. 국가유공자 : 10%
@@ -132,5 +164,4 @@ public class Kiosk {
                 yield totalPrice;
         };
     }
-
 }

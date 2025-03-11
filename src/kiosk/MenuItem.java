@@ -1,6 +1,9 @@
 package kiosk;
 
 public class MenuItem {
+    /*
+    productName 제품명, productPrice 제품 가격, productInfo 제품 설명, productCategory 카테고리
+     */
     private final String productName;
     private final Double productPrice;
     private final String productInfo;

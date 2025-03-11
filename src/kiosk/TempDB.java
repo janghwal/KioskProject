@@ -3,8 +3,8 @@ package kiosk;
 import java.util.ArrayList;
 import java.util.List;
 
-//추후 관리자 메뉴 만들어서 DB 관리 시키기
-
+//추후 관리자 메뉴로 DB 관리
+//데이터 초기화를 위해 사용
 public class TempDB {
     private final List<MenuItem> productList = new ArrayList<>();
 
@@ -37,6 +37,7 @@ public class TempDB {
         productList.add(menuItem12);
     }
 
+    //카테고리별 메뉴 리스트를 반환한다.
     public List<MenuItem> getProductList(String category){
         List<MenuItem> tempList = new ArrayList<>();
         for(MenuItem item : productList){
@@ -44,10 +45,10 @@ public class TempDB {
                 tempList.add(item);
             }
         }
-
         return tempList;
     }
 
+    //단가 정보를 반환한다.
     public Double getPrice(String productName){
         for(MenuItem item: productList){
             if(item.getProductName().equals(productName)){
